@@ -38,7 +38,7 @@ r_first_sd_start, r_first_sd_end = r_mean-(r_sd), r_mean+(r_sd)
 r_second_sd_start, r_second_sd_end = r_mean-(r_sd*2), r_mean+(r_sd*2)
 r_third_sd_start, r_third_sd_end = r_mean-(r_sd*3), r_mean+(r_sd*3)
 
-fig=ff.create_distplot([df],['reading score'],show_hist=False)
+fig=ff.create_distplot([r_list],['reading score'],show_hist=False)
 fig.add_trace(go.Scatter(x=[r_mean,r_mean],y=[0,0.17],mode='lines',name='mean'))
 fig.add_trace(go.Scatter(x=[r_first_sd_start,r_first_sd_start],y=[0,0.17],mode='lines',name='standard deviation 1'))
 fig.add_trace(go.Scatter(x=[r_first_sd_end,r_first_sd_end],y=[0,0.17],mode='lines',name='standard deviation 1'))
