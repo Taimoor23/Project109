@@ -1,12 +1,15 @@
 import statistics
 import pandas as pd
 import csv
+import plotly.figure_factory as ff
+import plotly.graph_objects as go
 
 df = pd.read_csv("C:/Users/Bajwa/Downloads/StudentsPerformance.csv")
 m_list = df["math score"].to_list()
 m_mean = statistics.mean(m_list)
 m_median = statistics.median(m_list)
 m_mode = statistics.mode(m_list)
+
 
 print("Mean, Median and Mode of math score is {}, {} and {} respectively".format(m_mean,m_median,m_mode))
 
@@ -15,6 +18,7 @@ m_first_sd_start, m_first_sd_end = m_mean-m_sd, m_mean+m_sd
 m_second_sd_start, m_second_sd_end = m_mean-m_sd*2, m_mean+m_sd*2
 m_third_sd_start, m_third_sd_end = m_mean-m_sd*3, m_mean+m_sd*3
 
+print('the standard deviation is:',m_sd)
 m_data_within_first_sd = [result for result in m_list if result> m_first_sd_start and result< m_first_sd_end]
 m_data_within_second_sd = [result for result in m_list if result> m_second_sd_start and result< m_second_sd_end]
 m_data_within_third_sd = [result for result in m_list if result> m_third_sd_start and result< m_third_sd_end]
@@ -30,9 +34,17 @@ r_mode = statistics.mode(r_list)
 print("Mean, Median and Mode of reading score is {}, {} and {} respectively".format(r_mean,r_median,r_mode))
 
 r_sd = statistics.stdev(r_list)
-r_first_sd_start, r_first_sd_end = r_mean-r_sd, r_mean+r_sd
-r_second_sd_start, r_second_sd_end = r_mean-r_sd*2, r_mean+r_sd*2
-r_third_sd_start, r_third_sd_end = r_mean-r_sd*3, r_mean+r_sd*3
+r_first_sd_start, r_first_sd_end = r_mean-(r_sd), r_mean+(r_sd)
+r_second_sd_start, r_second_sd_end = r_mean-(r_sd*2), r_mean+(r_sd*2)
+r_third_sd_start, r_third_sd_end = r_mean-(r_sd*3), r_mean+(r_sd*3)
+
+fig=ff.create_distplot([df],['reading score'],show_hist=False)
+fig.add_trace(go.Scatter(x=[r_mean,r_mean],y=[0,0.17],mode='lines',name='mean'))
+fig.add_trace(go.Scatter(x=[r_first_sd_start,r_first_sd_start],y=[0,0.17],mode='lines',name='standard deviation 1'))
+fig.add_trace(go.Scatter(x=[r_first_sd_end,r_first_sd_end],y=[0,0.17],mode='lines',name='standard deviation 1'))
+fig.add_trace(go.Scatter(x=[r_second_sd_start,r_second_sd_start],y=[0,0.17],mode='lines',name='standard deviation 2'))
+fig.add_trace(go.Scatter(x=[r_second_sd_end,r_second_sd_end],y=[0,0.17],mode='lines',name='standard deviation 2'))
+fig.show()
 
 r_data_within_first_sd = [result for result in r_list if result> r_first_sd_start and result< r_first_sd_end]
 r_data_within_second_sd = [result for result in r_list if result> r_second_sd_start and result< r_second_sd_end]
